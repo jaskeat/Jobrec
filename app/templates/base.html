@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Base HTML</title>
+		<link
+			href="{{ url_for('static', filename='css/output.css') }}"
+			rel="stylesheet"
+		/>
+	</head>
+	<body class="bg-gray-100 h-screen">
+		<div class="flex flex-col justify-center items-center min-h-screen">
+			<h1 class="mb-6 text-4xl text-black">JobRec</h1>
+			<div class="mb-4">
+				<form class="space-y-4">
+					<div>
+						<input
+							type="text"
+							placeholder="input job title"
+							class="px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black w-full focus:outline-none"
+						/>
+					</div>
+					<div class="flex space-x-4">
+						<input
+							type="text"
+							placeholder="input job location"
+							class="flex-grow px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black focus:outline-none"
+						/>
+						<button
+							type="submit"
+							class="bg-black hover:bg-gray-800 px-4 py-2 rounded-lg focus:ring-2 focus:ring-black text-white focus:outline-none"
+						>
+							Submit
+						</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
