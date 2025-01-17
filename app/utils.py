@@ -17,17 +17,31 @@ def job_search(name,country,city):
         site_name=["indeed"],
         search_term=name,
         location=city,
-        results_wanted=20,
+        results_wanted=1,
         hours_old=168,
         country_indeed=country,
-        
-        # linkedin_fetch_description=True # gets more info such as description, direct job url (slower)
-        # proxies=["208.195.175.46:65095", "208.195.175.45:65095", "localhost"],
     )
+    jobs = jobs.dropna(subset=['description'])
     descriptions = jobs['description']
-    combined_descriptions = "\n".join([f"{i+1}. {desc}" for i, desc in enumerate(descriptions)])
-    print(combined_descriptions)
+    
+    # Clean and format descriptions
+    cleaned_descriptions = []
+    for i, desc in enumerate(descriptions):
+        # Remove extra whitespace and normalize line endings
+        cleaned_text = ' '.join(desc.strip().split())
+        if cleaned_text:  # Only add non-empty descriptions
+            cleaned_descriptions.append(f"Job No.{i+1}. {cleaned_text}")
+    
+    # Join with single newline
+    combined_descriptions = '\n'.join(cleaned_descriptions)
+    
+    print(f"Processed {len(cleaned_descriptions)} job descriptions")
+    with open('/Users/jaskeatsingh/COding/JobRec/app/combined_descriptions.txt', 'w') as file:
+        file.write(combined_descriptions)
+    
     return combined_descriptions
+
+
 
 def aiSummary(description):
     # Check if Ollama is running
@@ -37,10 +51,22 @@ def aiSummary(description):
         return None
     
     try:
+        print('MODEL RUNNING')
         response: ChatResponse = chat(model='llama3.2', messages=[  # Changed to llama2 as it's more commonly available
             {
-                'role': 'user',
-                'content': f'Below I will give you a text which is a bunch of companies job listing descriptions. They are all combined together and numbered. I want you to take all these descriptions and only look at the requirements and ignore everything else. Take all the job requirements and create a summary highlighting the top 10 most common requirements. below is the job description {description}',
+            'role': 'user',
+            'content': f'''
+            You are an AI Tool that has to follow my exact instructions and do nothing else.
+            Below is a text containing combined job listing descriptions from various companies, each labeled as "Job No.1," "Job No.2," and so on till Job No.20. Your task is to extract only the requirements from these descriptions.
+            Identify and summarize the top 5 most common job requirements, focus more on technical skills like programming and certifications needed for that position. BE MORE SPECIFIC 
+            DO NOT SUMMARIZE THE JOB DESCRIPTION FOR EACH POSITION, instead take all the jobs and summarize the requirements AS A WHOLE
+            Present your findings in a simple, numbered list without any additional titles or explanations.
+            Ensure that the list accurately reflects the most frequently mentioned requirements across all descriptions. You are not allowed to give me any other response or text except the list
+            Here is the description {description}
+            ''',
+            'options':{
+            'num_ctx':30000    
+            }
             },
         ])
         print(response['message']['content'])
@@ -49,6 +75,34 @@ def aiSummary(description):
         print(f"Error connecting to Ollama: {str(e)}")
         print("Please ensure Ollama is running with 'ollama serve'")
         return None
-
-job_description = job_search('Data analyst','Hong Kong','Hong Kong')
+    
+def aiTester(description):
+    if not check_ollama_service():
+        print("Error: Ollama service is not running. Please start Ollama first.")
+        print("Run 'ollama serve' in your terminal")
+        return None
+    
+    try:
+        print('MODEL RUNNING')
+        response: ChatResponse = chat(model='llama3.2', messages=[  # Changed to llama2 as it's more commonly available
+            {
+            'role': 'user',
+            'content': f'''
+            You are an AI Tool that has to follow my exact instructions and do nothing else.
+            Below is a text containing combined job listing descriptions from various companies, each labeled as "Job No.1," "Job No.2," and so on till Job No.20. Your task is to extract only the requirements from these descriptions.
+            DO NOT TKAE IN ANY OTHER INFORMATION, simply remove everything EXCEPT THE REQUIREMENTS
+            Here is the description {description}
+            ''',
+            'options':{
+            'num_ctx':30000    
+            }
+            },
+        ])
+        print(response['message']['content'])
+        return response['message']['content']
+    except Exception as e:
+        print(f"Error connecting to Ollama: {str(e)}")
+        print("Please ensure Ollama is running with 'ollama serve'")
+        return None
+job_description = job_search('Software engineer','Hong Kong','Hong Kong')
 aiSummary(job_description)

@@ -4,16 +4,40 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Base HTML</title>
-		<link
-			href="{{ url_for('static', filename='css/output.css') }}"
-			rel="stylesheet"
-		/>
+		<link href="../static/css/output.css" rel="stylesheet" />
+		<style>
+			.form-checkbox {
+				@apply border-gray-300 rounded focus:ring-black w-5 h-5 text-black cursor-pointer;
+			}
+
+			/* Add these styles to the existing script section or head */
+			.hover\:bg-gray-50:hover {
+				background-color: rgba(
+					243,
+					244,
+					246,
+					1
+				); /* Changed from 249,250,251 to 243,244,246 */
+			}
+
+			.transition-colors {
+				transition-property: background-color, border-color, color, fill,
+					stroke;
+				transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+				transition-duration: 150ms;
+			}
+		</style>
 	</head>
 	<body class="bg-gray-100 h-screen">
 		<div class="flex flex-col justify-center items-center min-h-screen">
 			<h1 class="mb-6 text-4xl text-black">JobRec</h1>
 			<div class="mb-4">
-				<form class="space-y-4">
+				<form
+					class="space-y-4"
+					method="POST"
+					action="/"
+					id="skillsForm"
+				>
 					<div>
 						<input
 							type="text"
@@ -27,15 +51,258 @@
 							placeholder="input job location"
 							class="flex-grow px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black focus:outline-none"
 						/>
-						<button
-							type="submit"
-							class="bg-black hover:bg-gray-800 px-4 py-2 rounded-lg focus:ring-2 focus:ring-black text-white focus:outline-none"
-						>
-							Submit
-						</button>
+
+						<div class="relative">
+							<button
+								type="button"
+								onclick="toggleDropdown('mainDropdown')"
+								class="bg-white px-4 py-2 border rounded-lg focus:ring-2 focus:ring-black focus:outline-none"
+							>
+								Select Skills
+							</button>
+							<div
+								id="mainDropdown"
+								class="right-0 z-10 absolute hidden bg-white shadow-lg mt-2 rounded-lg w-48"
+							>
+								<!-- First Option -->
+								<div class="relative group">
+									<button
+										type="button"
+										onclick="toggleDropdown('subDropdown1')"
+										class="flex justify-between items-center hover:bg-gray-100 px-4 py-2 w-full text-left"
+									>
+										<span>Data analyst</span>
+										<span class="ml-2">›</span>
+									</button>
+									<div
+										id="subDropdown1"
+										class="top-0 left-full absolute hidden bg-white shadow-lg ml-1 rounded-lg w-48"
+									>
+										<div class="space-y-2 p-2">
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="python_da"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>Python</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="r_da"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>R</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="sql_da"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>SQL</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="ml_da"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>Machine Learning</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="tableau_da"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>Tableau</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="powerbi_da"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>Power BI</span
+												>
+											</label>
+										</div>
+									</div>
+								</div>
+								<!-- Second Option -->
+								<div class="relative group">
+									<button
+										type="button"
+										onclick="toggleDropdown('subDropdown2')"
+										class="flex justify-between items-center hover:bg-gray-100 px-4 py-2 w-full text-left"
+									>
+										<span>Software Engineer</span>
+										<span class="ml-2">›</span>
+									</button>
+									<div
+										id="subDropdown2"
+										class="top-0 left-full absolute hidden bg-white shadow-lg ml-1 rounded-lg w-48"
+									>
+										<div class="space-y-2 p-2">
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="javascript_se"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>JavaScript</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="python_se"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>Python</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="java_se"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>Java</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="react_se"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>React</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="nodejs_se"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>Node.js</span
+												>
+											</label>
+											<label
+												class="flex items-center space-x-3 hover:bg-gray-100 p-2 rounded transition-colors duration-150 cursor-pointer"
+											>
+												<input
+													type="checkbox"
+													class="form-checkbox cursor-pointer"
+													name="skills"
+													value="sql_se"
+												/>
+												<span
+													class="text-base hover:text-gray-900"
+													>SQL</span
+												>
+											</label>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
+
+					<button
+						type="submit"
+						class="bg-black hover:bg-gray-800 px-4 py-2 rounded-lg focus:ring-2 focus:ring-black w-full text-white focus:outline-none"
+					>
+						Submit
+					</button>
 				</form>
 			</div>
 		</div>
+
+		<script>
+			function toggleDropdown(id) {
+				const dropdown = document.getElementById(id);
+				if (dropdown) {
+					dropdown.classList.toggle("hidden");
+				}
+			}
+
+			// Close dropdowns when clicking outside
+			window.addEventListener("click", function (e) {
+				if (!e.target.closest(".relative")) {
+					document
+						.querySelectorAll('[id^="subDropdown"]')
+						.forEach((dropdown) => {
+							dropdown.classList.add("hidden");
+						});
+					document
+						.getElementById("mainDropdown")
+						.classList.add("hidden");
+				}
+			});
+		</script>
 	</body>
 </html>
