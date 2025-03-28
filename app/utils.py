@@ -17,7 +17,7 @@ def job_search(name,country,city):
         site_name=["indeed"],
         search_term=name,
         location=city,
-        results_wanted=1,
+        results_wanted=7,
         hours_old=168,
         country_indeed=country,
     )
@@ -31,7 +31,7 @@ def job_search(name,country,city):
         cleaned_text = ' '.join(desc.strip().split())
         if cleaned_text:  # Only add non-empty descriptions
             cleaned_descriptions.append(f"Job No.{i+1}. {cleaned_text}")
-    
+  
     # Join with single newline
     combined_descriptions = '\n'.join(cleaned_descriptions)
     
@@ -65,7 +65,7 @@ def aiSummary(description):
             Here is the description {description}
             ''',
             'options':{
-            'num_ctx':30000    
+            'num_ctx':15000    
             }
             },
         ])
